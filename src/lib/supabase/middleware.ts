@@ -6,11 +6,18 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  const url =
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+  const anonKey =
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key';
 
-  // If Supabase keys are not configured or are placeholders, allow access without breaking
-  if (!url || !anonKey || url.includes('sample-project-id')) {
+  // If Supabase keys are default/placeholders, gracefully allow access without failing builds
+  if (
+    !url ||
+    !anonKey ||
+    url.includes('placeholder') ||
+    url.includes('sample-project-id')
+  ) {
     return supabaseResponse;
   }
 
